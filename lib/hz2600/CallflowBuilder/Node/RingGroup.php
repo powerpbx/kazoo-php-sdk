@@ -33,7 +33,6 @@ class RingGroup extends AbstractNode
     public function endpoints(array $endpoints){
         $this->data->endpoints = array();
         $absolute_timeout = 0;
-        $strategy = $this->data->strategy;
 
         foreach ($endpoints as $id => $options){
             $options = array_merge($this->endpointDefaults(), $options);
@@ -44,7 +43,7 @@ class RingGroup extends AbstractNode
             $endpoint->timeout = $options['timeout'];
             $endpoint->id      = (string)$id;
 
-            if ($strategy == "single") {
+            if (!empty($this->data->strategy) && $this->data->strategy == "single") {
                 $absolute_timeout = $absolute_timeout + $options['timeout'];
             } else {
                 $maybe_absolute_timeout = $options['delay'] + $options['timeout'];
